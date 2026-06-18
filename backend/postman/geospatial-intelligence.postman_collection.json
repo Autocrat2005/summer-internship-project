@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "Geospatial Intelligence MVP",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:4000/api"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "Geocode",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/geocode?query=Kurukshetra"
+      }
+    },
+    {
+      "name": "List Locations",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/locations"
+      }
+    },
+    {
+      "name": "Create Location",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Kurukshetra\",\n  \"latitude\": 29.9695,\n  \"longitude\": 76.8783,\n  \"country\": \"India\",\n  \"adminRegion\": \"Haryana\"\n}"
+        },
+        "url": "{{baseUrl}}/locations"
+      }
+    },
+    {
+      "name": "Satellite",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/satellite?lat=29.9695&lon=76.8783"
+      }
+    },
+    {
+      "name": "Climate",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/climate?lat=29.9695&lon=76.8783"
+      }
+    },
+    {
+      "name": "Classification",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/classification?lat=29.9695&lon=76.8783"
+      }
+    },
+    {
+      "name": "Farming",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/farming?lat=29.9695&lon=76.8783"
+      }
+    },
+    {
+      "name": "Disasters",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/disasters?lat=29.9695&lon=76.8783"
+      }
+    },
+    {
+      "name": "Unified Report",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/report?query=Kurukshetra"
+      }
+    }
+  ]
+}

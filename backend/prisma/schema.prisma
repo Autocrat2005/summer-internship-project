@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Location {
+  id              String               @id @default(cuid())
+  name            String
+  latitude        Float
+  longitude       Float
+  country         String?
+  adminRegion     String?
+  source          String               @default("user")
+  rawPayload      Json?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  climateRecords  ClimateRecord[]
+  satelliteScenes SatelliteScene[]
+  classifications LandClassification[]
+  recommendations CropRecommendation[]
+  disasterEvents  DisasterEvent[]
+
+  @@index([latitude, longitude])
+  @@index([name])
+}
+
+model ClimateRecord {
+  id            String   @id @default(cuid())
+  locationId    String?
+  location      Location? @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  source        String
+  observedAt    DateTime @default(now())
+  temperature   Float?
+  humidity      Float?
+  precipitation Float?
+  pressure      Float?
+  windSpeed     Float?
+  rawPayload    Json?
+  createdAt     DateTime @default(now())
+}
+
+model SatelliteScene {
+  id              String   @id @default(cuid())
+  locationId      String?
+  location        Location? @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  provider        String
+  collection      String
+  sceneId         String?
+  acquisitionDate DateTime?
+  cloudCover      Float?
+  previewUrl      String?
+  rawPayload      Json?
+  createdAt       DateTime @default(now())
+}
+
+model LandClassification {
+  id              String   @id @default(cuid())
+  locationId      String?
+  location        Location? @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  landCoverCode   Int?
+  landCoverLabel  String
+  regionType      String
+  urbanRural      String
+  elevationMeters Float?
+  confidence      Int
+  rawPayload      Json?
+  createdAt       DateTime @default(now())
+}
+
+model CropRule {
+  id              String   @id @default(cuid())
+  cropName        String
+  season          String
+  minTemperature  Float
+  maxTemperature  Float
+  minRainfall     Float
+  maxRainfall     Float
+  minHumidity     Float?
+  maxHumidity     Float?
+  preferredLand   String[]
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model CropRecommendation {
+  id         String   @id @default(cuid())
+  locationId String?
+  location   Location? @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  cropName   String
+  score      Int
+  suitable   Boolean
+  reasons    String[]
+  rawPayload Json?
+  createdAt  DateTime @default(now())
+}
+
+model DisasterEvent {
+  id         String   @id @default(cuid())
+  locationId String?
+  location   Location? @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  name       String
+  type       String
+  year       Int?
+  severity   String
+  reason     String
+  source     String
+  latitude   Float?
+  longitude  Float?
+  rawPayload Json?
+  createdAt  DateTime @default(now())
+}
+
+model ReportCache {
+  id        String   @id @default(cuid())
+  query     String   @unique
+  payload   Json
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

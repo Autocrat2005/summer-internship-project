@@ -1,0 +1,17 @@
+export const landCoverLabels: Record<number, string> = {
+  10: 'Tree cover',
+  20: 'Shrubland',
+  30: 'Grassland',
+  40: 'Cropland',
+  50: 'Built-up',
+  60: 'Bare sparse vegetation',
+  70: 'Snow and ice',
+  80: 'Permanent water bodies',
+  90: 'Herbaceous wetland',
+  95: 'Mangroves',
+  100: 'Moss and lichen',
+}
+
+export function getLandCoverLabel(code: number) {
+  return landCoverLabels[code] ?? 'Mixed land cover'
+}
