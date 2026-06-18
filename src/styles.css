@@ -916,9 +916,37 @@ code {
     padding: 14px;
   }
 
+  .sidebar {
+    gap: 14px;
+  }
+
   .brand-block,
   .panel-heading {
     align-items: flex-start;
+  }
+
+  .brand-mark {
+    width: 42px;
+    height: 42px;
+  }
+
+  .nav-stack {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .nav-stack a {
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    min-height: 58px;
+    padding: 7px 5px;
+    font-size: 11px;
+  }
+
+  .mission-card,
+  .endpoint-panel {
+    display: none;
   }
 
   .topbar-copy {
