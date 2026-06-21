@@ -5,6 +5,8 @@ import {
   Database,
   Globe2,
   Layers3,
+  Eye,
+  EyeOff,
   Loader2,
   MapPin,
   Radar,
@@ -137,8 +139,11 @@ function App() {
 }
 
 function Dashboard({ report, maxRainfall }: { report: DashboardReport; maxRainfall: number }) {
+  const [payloadVisible, setPayloadVisible] = useState(true)
+  const [payloadMode, setPayloadMode] = useState<'compact' | 'full'>('compact')
   const topCrop = report.farming.recommendations[0]
   const topDisaster = report.disasters[0]
+  const payload = payloadMode === 'compact' ? compactReport(report) : report
 
   return (
     <>
@@ -268,16 +273,40 @@ function Dashboard({ report, maxRainfall }: { report: DashboardReport; maxRainfa
           </div>
         </article>
 
-        <article className="panel report-panel">
+        <article className={`panel report-panel${payloadVisible ? '' : ' report-panel-collapsed'}`}>
           <div className="panel-head">
             <div>
               <p className="kicker">Dashboard API</p>
               <h2>Unified report payload</h2>
             </div>
-            <Database size={22} aria-hidden="true" />
+            <div className="panel-actions">
+              {payloadVisible && (
+                <button
+                  type="button"
+                  className="panel-action"
+                  aria-pressed={payloadMode === 'full'}
+                  onClick={() => setPayloadMode((mode) => (mode === 'compact' ? 'full' : 'compact'))}
+                >
+                  <Database size={15} aria-hidden="true" />
+                  {payloadMode === 'compact' ? 'Full payload' : 'Compact view'}
+                </button>
+              )}
+              <button
+                type="button"
+                className="panel-action"
+                aria-expanded={payloadVisible}
+                aria-controls="dashboard-api-payload"
+                onClick={() => setPayloadVisible((visible) => !visible)}
+              >
+                {payloadVisible ? <EyeOff size={15} aria-hidden="true" /> : <Eye size={15} aria-hidden="true" />}
+                {payloadVisible ? 'Hide payload' : 'Show payload'}
+              </button>
+            </div>
           </div>
 
-          <pre>{JSON.stringify(compactReport(report), null, 2)}</pre>
+          {payloadVisible && (
+            <pre id="dashboard-api-payload">{JSON.stringify(payload, null, 2)}</pre>
+          )}
         </article>
       </section>
     </>

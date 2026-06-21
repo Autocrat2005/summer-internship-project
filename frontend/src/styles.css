@@ -364,6 +364,38 @@ h2 {
   background: var(--red-dark);
 }
 
+.panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.panel-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text);
+  background: #080808;
+  font-size: 12px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.panel-action:hover,
+.panel-action[aria-pressed="true"] {
+  border-color: var(--red);
+  background: var(--red-soft);
+}
+
+.report-panel-collapsed .panel-head {
+  margin-bottom: 0;
+}
+
 .satellite-view {
   position: relative;
   overflow: hidden;
